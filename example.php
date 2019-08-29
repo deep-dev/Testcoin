@@ -37,7 +37,7 @@ try {
 
         echo "<br>";
         echo 'Alice: ' . $blockChain->getBalance("alice") . "<br>\n";   // should return 50
-        echo 'Bob: ' . $blockChain->getBalance("bob") . "<br>\n";     // should return 50
+        echo 'Bob: ' . $blockChain->getBalance("bob") . "<br>\n";       // should return 50
 
 } catch (Exception $e) {
     echo 'Error: ',  $e->getMessage(), "\n";

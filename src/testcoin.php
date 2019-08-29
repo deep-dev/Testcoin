@@ -262,7 +262,15 @@ class BlockChain
      */
     public function getBlockChain()
     {
+        $max = 0;
+        $ChainsBlocksCount = array();
 
+        foreach ($this->BlockTree as $chain => $blocks) {
+            $ChainsBlocksCount[$chain] = count($blocks);
+            if( max($ChainsBlocksCount) == count($blocks) ) $max = $chain;
+        }
+
+        return $this->BlockTree[$max];
     }
 
     /**
@@ -344,17 +352,15 @@ class BlockChain
             throw new Exception('Error in account: It\'s missing, or is shorter than 2 characters or longer than 100 characters');
         }
 
-        // $BlockChain = $this->getBlockChain();
+        $BlockChain = $this->getBlockChain();
 
-        foreach ($this->BlockTree as $chain => $blocks) {
-            foreach ( $blocks as $b ) {
-                foreach ($b->getTransactions() as $t) {
-                    if ($t->getTo() == $account) {
-                        $balance += $t->getAmount();
-                    }
-                    if ($t->getFrom() == $account) {
-                        $balance -= $t->getAmount();
-                    }
+        foreach ( $BlockChain as $b ) {
+            foreach ($b->getTransactions() as $t) {
+                if ($t->getTo() == $account) {
+                    $balance += $t->getAmount();
+                }
+                if ($t->getFrom() == $account) {
+                    $balance -= $t->getAmount();
                 }
             }
         }
